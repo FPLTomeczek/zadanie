@@ -31,13 +31,19 @@ if(isset($_SESSION['id'])){
         if($result->num_rows > 0){
 
 ?>
-<div class="users">
-    <table>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="display-1 text-center">Users</h1>
+            <a href="users_add.php"><button class="btn btn-primary mb-2">Add User</button> </a>
+    <table class="table table-striped table-hover">
         <tr>
             <th>Username</th>
             <th>First Name</th>
             <th>Second Name</th>
             <th>Date Of Birth</th>
+            <th>Action</th>
         </tr>
 
         <?php while ($record = mysqli_fetch_assoc($result)) { ?>
@@ -46,15 +52,17 @@ if(isset($_SESSION['id'])){
                 <td><?php echo $record['first_name']?></td>
                 <td><?php echo $record['second_name']?></td>
                 <td><?php echo $record['dob']?></td>
-                <td><a href="users_edit.php?id=<?php echo $record['id']?>">Edit</a>
-            <a href="users.php?delete=<?php echo $record['id']?>">Delete</a></td>
+                <td><a href="users_edit.php?id=<?php echo $record['id']?>"><button class="btn btn-warning">Edit</button></a>
+            <a href="users.php?delete=<?php echo $record['id']?>"><button class="btn btn-danger">Delete</button></a></td>
             </tr>
             
             <?php }?>
     </table>
-    <a href="users_add.php">Add User</a>
+    
 </div>
-
+</div>
+    </div>
+</div>
 
 <?php 
         }
@@ -68,3 +76,6 @@ if(isset($_SESSION['id'])){
     }
 }
 ?>
+
+<?php
+include('includes/footer.php');

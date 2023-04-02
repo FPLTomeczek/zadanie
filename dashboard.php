@@ -7,8 +7,17 @@
 
 ?>
 
-<div class="dashboard">
-    <h1>Welcome, <?php echo $_SESSION['username']; ?></h1>
-    <a href="users.php">Users</a>
-    <a href="groups.php">Groups</a>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center mb-4">Welcome, <?php echo $_SESSION['username']; ?></h1>
+    <div class="d-flex justify-content-center">
+    <a href="users.php"><button type="button" class="btn btn-primary mx-2">Users</button></a>
+    <a href="groups.php"><button type="button" class="btn btn-primary mx-2">Groups</button></a>
+    </div>
+        </div>
+    </div>
 </div>
+
+<?php
+include('includes/footer.php');

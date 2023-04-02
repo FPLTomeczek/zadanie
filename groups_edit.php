@@ -59,6 +59,7 @@ if(isset($_GET['id'])){
     }
 
     if(isset($_POST['name'])){
+        if(validateGroup($_POST['name'])){
         if($stm = $connect->prepare("UPDATE groups SET name=? WHERE id=?")){
         $stm->bind_param('si',$_POST['name'], $_GET['id']);
         $stm->execute();
@@ -69,6 +70,7 @@ if(isset($_GET['id'])){
         echo 'Could not prepare statement';
      }
      header("Location: groups.php");
+    }
     }
 }
 
@@ -119,28 +121,39 @@ if(isset($_POST['add_user'])){
 
 ?>
 
-<div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
     <form method="post">
 
-        <div class="form-element">
-            <label for="id">ID: </label>
-            <input type="text" id="id" name="id" value=<?php echo $group['id']?> disabled>
+        <div class="form-outline mb-4">
+            <input type="text" id="id" name="id" class="form-control" value=<?php echo $group['id']?> disabled>
+            <label for="id" class="form-label">ID: </label>
         </div>      
  
         
-        <div class="form-element">
-            <label for="name">Group Name: </label>
-            <input type="text" id="name" name="name" value=<?php echo $group['name']?>>
-        </div>      
+        <div class="form-outline <?php echo (isset($_SESSION['e_name']) ? "mb-1":"form-outline mb-4") ?>">
+            <input type="text" id="name" name="name" class="form-control" value=<?php echo $group['name']?>>
+            <label for="name" class="form-label">Group Name: </label>
+        </div>
+        
+          <?php 
+                if(isset($_SESSION['e_name'])){
+                    echo '<span class="text-danger">'.$_SESSION['e_name'].'</span>';
+                    unset($_SESSION['e_name']);
+                }
+            ?>    
 
 
       <div class="users">
-    <table>
+    <table class="table table-striped table-hover">
         <tr>
             <th>Username</th>
             <th>First Name</th>
             <th>Second Name</th>
             <th>Date Of Birth</th>
+            <th>Action</th>
         </tr>
 
         <?php while ($record = mysqli_fetch_assoc($resultUsers)) { ?>
@@ -149,32 +162,44 @@ if(isset($_POST['add_user'])){
                 <td><?php echo $record['first_name']?></td>
                 <td><?php echo $record['second_name']?></td>
                 <td><?php echo $record['dob']?></td>
-                <td><a href="groups_edit.php?deleteU=<?php echo $record['id']?>&deleteG=<?php echo $_GET['id']?>">Delete</a></td>
+                <td><a href="groups_edit.php?deleteU=<?php echo $record['id']?>&deleteG=<?php echo $_GET['id']?>"><button class="btn btn-danger">Delete</button></a></td>
             </tr>
             
             <?php }?>
     </table>
-</div>
 
 
+  
 
         
 
-        <button type="submit">Edit Group</button>
+        <button type="submit" class="btn btn-warning">Edit Group</button>
 
     </form>
+    </div>
+        </div>
+        </div>
 
 
+        <div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
     <form method="post">
             <div class="form-element">
-            <select name="add_user" id="add_user" >
+            <select name="add_user" id="add_user" class="form-select mb-1">
                 <?php while ($record = mysqli_fetch_assoc($resultAddUsers)) { ?>
                     <option value=<?php echo $record['id']?>><?php echo $record['username']?></option>
             <?php }?>
             </select>
         </div>
 
-        <button type="submit">Add To Group</button>
+        <button type="submit" class="btn btn-primary">Add To Group</button>
 
     </form>
 </div>
+                </div>
+                </div>
+
+
+<?php
+include('includes/footer.php');

@@ -13,6 +13,8 @@ if(isset($_GET['delete'])){
         $stm->bind_param('i',$_GET['delete']);
         $stm->execute();
         $stm->close();
+        setMessage("Group with ID: ".$_GET['delete']." deleted");
+        getMessage();
         unset($_GET['delete']);
     }
     else{
@@ -29,25 +31,31 @@ if(isset($_SESSION['id'])){
         if($result->num_rows > 0){
 
 ?>
-<div class="users">
-    <table>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <h1 class="display-1">Groups</h1>
+    <table class="table table-striped table-hover">
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Action</th>
         </tr>
 
         <?php while ($record = mysqli_fetch_assoc($result)) { ?>
             <tr>
                 <td><?php echo $record['id']?></td>
                 <td><?php echo $record['name']?></td>
-                <td><a href="groups_edit.php?id=<?php echo $record['id']?>">Edit</a>
-            <a href="groups.php?delete=<?php echo $record['id']?>">Delete</a></td>
+                <td><a href="groups_edit.php?id=<?php echo $record['id']?>"><button class="btn btn-warning">Edit</button></a>
+            <a href="groups.php?delete=<?php echo $record['id']?>"><button class="btn btn-danger">Delete</button></a></td>
             </tr>
             
             <?php }?>
     </table>
-    <a href="groups_add.php">Add Group</a>
+    <a href="groups_add.php"><button class="btn btn-primary">Add Group</button></a>
 </div>
+        </div>
+        </div>
 
 
 <?php 
@@ -61,4 +69,5 @@ if(isset($_SESSION['id'])){
         echo "Could not prepare statement";
     }
 }
+include('includes/footer.php');
 ?>
