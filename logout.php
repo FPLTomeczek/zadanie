@@ -3,5 +3,5 @@
 include('includes/config.php');
 
 session_destroy();
-header("Location: /zadanie");
+header("Location: index.php");
 die();
