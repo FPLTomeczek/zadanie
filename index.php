@@ -3,7 +3,9 @@
 include('includes/database.php');
 include('includes/config.php');
 include('includes/header.php');
+include('includes/functions.php');
 
+getMessage();
 
 if(isset($_SESSION['id'])){
     header("Location: dashboard.php");
@@ -27,32 +29,32 @@ if(isset($_POST['username'])){
         $stm->close();
     }
     else{
-        echo 'Coud not prepare statement';
+        echo 'Could not prepare statement';
     }
 }
 
 ?>
 
 <div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-    <form method="post">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post">
 
-        <div class="form-outline mb-4">
-            <input type="text" id="username" name="username" class="form-control"/>
-            <label for="email" class="form-label">Username </label>
-        </div>      
+                <div class="form-outline mb-4">
+                    <input type="text" id="username" name="username" class="form-control" />
+                    <label for="email" class="form-label">Username </label>
+                </div>
 
-        <div class="form-outline mb-4">
-            <input type="password" id="password" name="password" class="form-control"/>
-            <label for="password" class="form-label">Password </label>
-        </div>      
+                <div class="form-outline mb-4">
+                    <input type="password" id="password" name="password" class="form-control" />
+                    <label for="password" class="form-label">Password </label>
+                </div>
 
-        <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                <button type="submit" class="btn btn-primary btn-block">Log In</button>
 
-    </form>
-</div>
-</div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <?php

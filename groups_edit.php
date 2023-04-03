@@ -14,6 +14,7 @@ if(isset($_GET['deleteU'])){
         $stm->execute();
         setMessage("User with ID: ".$_GET['deleteU']." deleted.");
         header("Location: groups_edit.php?id=".$_GET['deleteG']);
+        die();
         }
     else{
             echo 'Could not prepare delete users_groups statement';
@@ -86,7 +87,7 @@ if(isset($_POST['add_user'])){
         $result = $stm->get_result();
         $stm->close();
         if($result->num_rows > 0){
-            //setMessage()
+            $_SESSION['e_add_user'] = "User already in group.";
         }
         else{
             if($stm = $connect->prepare("INSERT INTO users_groups (user_id, group_id) VALUES (?,?)")){
@@ -125,80 +126,78 @@ if(isset($_POST['add_user'])){
     <div class="row justify-content-center">
         <div class="col-md-6">
 
-    <form method="post">
+            <form method="post">
 
-        <div class="form-outline mb-4">
-            <input type="text" id="id" name="id" class="form-control" value=<?php echo $group['id']?> disabled>
-            <label for="id" class="form-label">ID: </label>
-        </div>      
- 
-        
-        <div class="form-outline <?php echo (isset($_SESSION['e_name']) ? "mb-1":"form-outline mb-4") ?>">
-            <input type="text" id="name" name="name" class="form-control" value=<?php echo $group['name']?>>
-            <label for="name" class="form-label">Group Name: </label>
-        </div>
-        
-          <?php 
+                <div class="form-outline mb-4">
+                    <input type="text" id="id" name="id" class="form-control" value=<?php echo $group['id']?> disabled>
+                    <label for="id" class="form-label">ID: </label>
+                </div>
+
+
+                <div class="form-outline <?php echo (isset($_SESSION['e_name']) ? "mb-1":"form-outline mb-2") ?>">
+                    <input type="text" id="name" name="name" class="form-control" value=<?php echo $group['name']?>>
+                    <label for="name" class="form-label">Group Name: </label>
+                </div>
+
+                <?php 
                 if(isset($_SESSION['e_name'])){
-                    echo '<span class="text-danger">'.$_SESSION['e_name'].'</span>';
+                    echo '<span class="text-danger">'.$_SESSION['e_name'].'</span><br/>';
                     unset($_SESSION['e_name']);
                 }
-            ?>    
+            ?>
+                <button type="submit" class="btn btn-warning">Edit Group</button>
 
+            </form>
+            <h4 class="display-4 mt-4">Users</h4>
+            <table class="table table-striped table-hover mt-2">
+                <tr>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Second Name</th>
+                    <th>Date Of Birth</th>
+                    <th>Action</th>
+                </tr>
 
-      <div class="users">
-    <table class="table table-striped table-hover">
-        <tr>
-            <th>Username</th>
-            <th>First Name</th>
-            <th>Second Name</th>
-            <th>Date Of Birth</th>
-            <th>Action</th>
-        </tr>
+                <?php while ($record = mysqli_fetch_assoc($resultUsers)) { ?>
+                <tr>
+                    <td><?php echo $record['username']?></td>
+                    <td><?php echo $record['first_name']?></td>
+                    <td><?php echo $record['second_name']?></td>
+                    <td><?php echo $record['dob']?></td>
+                    <td><a href="groups_edit.php?deleteU=<?php echo $record['id']?>&deleteG=<?php echo $_GET['id']?>"><button
+                                class="btn btn-danger">Delete</button></a></td>
+                </tr>
 
-        <?php while ($record = mysqli_fetch_assoc($resultUsers)) { ?>
-            <tr>
-                <td><?php echo $record['username']?></td>
-                <td><?php echo $record['first_name']?></td>
-                <td><?php echo $record['second_name']?></td>
-                <td><?php echo $record['dob']?></td>
-                <td><a href="groups_edit.php?deleteU=<?php echo $record['id']?>&deleteG=<?php echo $_GET['id']?>"><button class="btn btn-danger">Delete</button></a></td>
-            </tr>
-            
-            <?php }?>
-    </table>
-
-
-  
-
-        
-
-        <button type="submit" class="btn btn-warning">Edit Group</button>
-
-    </form>
+                <?php }?>
+            </table>
+        </div>
     </div>
-        </div>
-        </div>
+</div>
 
 
-        <div class="container mt-5">
+<div class="container mt-2">
     <div class="row justify-content-center">
         <div class="col-md-6">
-    <form method="post">
-            <div class="form-element">
-            <select name="add_user" id="add_user" class="form-select mb-1">
-                <?php while ($record = mysqli_fetch_assoc($resultAddUsers)) { ?>
-                    <option value=<?php echo $record['id']?>><?php echo $record['username']?></option>
-            <?php }?>
-            </select>
+            <form method="post">
+                <div class="form-element">
+                    <select name="add_user" id="add_user" class="form-select mb-2">
+                        <?php while ($record = mysqli_fetch_assoc($resultAddUsers)) { ?>
+                        <option value=<?php echo $record['id']?>><?php echo $record['username']?></option>
+                        <?php }?>
+                    </select>
+                </div>
+                <?php 
+			if(isset($_SESSION['e_add_user'])){
+				echo '<span class="text-danger">'.$_SESSION['e_add_user'].'</span><br/>';
+				unset($_SESSION['e_add_user']);
+			}
+		?>
+                <button type="submit" class="btn btn-primary">Add To Group</button>
+
+            </form>
         </div>
-
-        <button type="submit" class="btn btn-primary">Add To Group</button>
-
-    </form>
+    </div>
 </div>
-                </div>
-                </div>
 
 
 <?php

@@ -15,7 +15,7 @@ function setMessage($message)
 function getMessage()
 {
     if (isset($_SESSION['message'])) {
-        echo '<p>' . $_SESSION['message'] . '</p><hr/>';
+        echo '<p class="text-success text-center display-6">' . $_SESSION['message'] . '</p>';
         unset($_SESSION['message']);
     }
 }

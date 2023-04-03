@@ -34,28 +34,31 @@ if(isset($_SESSION['id'])){
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-4">
-            <h1 class="display-1">Groups</h1>
-    <table class="table table-striped table-hover">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Action</th>
-        </tr>
+            <h1 class="display-1 text-center">Groups</h1>
+            <a href="groups_add.php"><button class="btn btn-primary">Add Group</button></a>
+            <table class="table table-striped table-hover mt-4">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
 
-        <?php while ($record = mysqli_fetch_assoc($result)) { ?>
-            <tr>
-                <td><?php echo $record['id']?></td>
-                <td><?php echo $record['name']?></td>
-                <td><a href="groups_edit.php?id=<?php echo $record['id']?>"><button class="btn btn-warning">Edit</button></a>
-            <a href="groups.php?delete=<?php echo $record['id']?>"><button class="btn btn-danger">Delete</button></a></td>
-            </tr>
-            
-            <?php }?>
-    </table>
-    <a href="groups_add.php"><button class="btn btn-primary">Add Group</button></a>
+                <?php while ($record = mysqli_fetch_assoc($result)) { ?>
+                <tr>
+                    <td><?php echo $record['id']?></td>
+                    <td><?php echo $record['name']?></td>
+                    <td><a href="groups_edit.php?id=<?php echo $record['id']?>"><button
+                                class="btn btn-warning">Edit</button></a>
+                        <a href="groups.php?delete=<?php echo $record['id']?>"><button
+                                class="btn btn-danger">Delete</button></a>
+                    </td>
+                </tr>
+
+                <?php }?>
+            </table>
+        </div>
+    </div>
 </div>
-        </div>
-        </div>
 
 
 <?php 

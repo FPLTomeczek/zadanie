@@ -25,27 +25,26 @@ if(isset($_POST['name'])){
 
 ?>
 
- <div class="container mt-5">
+<div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-    <form method="post">
+            <form method="post">
 
-        <div class="form-outline <?php echo (isset($_SESSION['e_name']) ? "mb-1":"form-outline mb-4") ?>">
-            <input type="text" id="name" name="name" class="form-control"/>
-            <label for="name" class="form-label">Group Name: </label>
-        </div>   
-        
-         <?php 
+                <div class="form-outline <?php echo (isset($_SESSION['e_name']) ? "mb-1":"mb-2") ?>">
+                    <input type="text" id="name" name="name" class="form-control" />
+                    <label for="name" class="form-label">Group Name: </label>
+                </div>
+
+                <?php 
 			if(isset($_SESSION['e_name'])){
-				echo '<span class="text-danger">'.$_SESSION['e_name'].'</span>';
+				echo '<span class="text-danger">'.$_SESSION['e_name'].'</span><br/>';
 				unset($_SESSION['e_name']);
 			}
-		?>    
-        <br/>
-        <button type="submit" class="btn btn-primary">Add Group</button>
+		?>
+                <button type="submit" class="btn btn-primary">Add Group</button>
 
-    </form>
-</div>
+            </form>
+        </div>
     </div>
 </div>
 
